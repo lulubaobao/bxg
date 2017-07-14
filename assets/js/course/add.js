@@ -1,0 +1,32 @@
+console.log("添加课程");
+//表单验证
+//验证成功后,跳转页面
+require(['/bxg/assets/js/config.js','/bxg/assets/js/common.js'],function(){
+    require(['jquery','validate','form'],function($){
+        $('form').validate({
+            submitHandler:function(){
+                var options ={
+                    url:'/api/course/create',
+                    type:'post',
+                    //data属性可以不用写,form插件会自动获取参数
+                   success:function(data){
+                        window.location.href='./step1.html?cs_id='+data.result.cs_id;
+                   }
+                }
+                $('form').ajaxSubmit(options);
+            },
+            rules:{
+                cs_name:{
+                    required:true,
+                    rangelength:[3,8]
+                }
+            },
+            message:{
+                cs_name:{
+                    required:'不能为空',
+                    rangelength:'课程名字太长或者太短'
+                }
+            }
+        })
+    })
+})
